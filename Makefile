@@ -4,11 +4,11 @@ PDK=sky130A
 SHARED_DIR=$(abspath ./shared_xserver)
 
 ifeq (,$(DEV))
-DOCKER_IMAGE_TAG=isaiassh/unic-cass-tools:0.1
-STAGE=usm-vlsi-tools
+DOCKER_IMAGE_TAG=isaiassh/unic-cass-tools:0.1.1
+STAGE=unic-cass-tools
 else
-DOCKER_IMAGE_TAG=isaiassh/unic-cass-tools:0.1
-STAGE=usm-vlsi-tools
+DOCKER_IMAGE_TAG=isaiassh/unic-cass-tools:0.1.1
+STAGE=unic-cass-tools
 endif
 
 

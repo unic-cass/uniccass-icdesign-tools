@@ -6,7 +6,7 @@ REM ==============================================
 REM ---- Basic configuration
 setlocal enabledelayedexpansion
 
-set IMAGE_TAG=isaiassh/unic-cass-tools:0.1
+set IMAGE_TAG=isaiassh/unic-cass-tools:0.1.1
 set PDK=sky130A
 set SHARED_DIR=%CD%\shared_xserver
 set DISPLAY=host.docker.internal:0
