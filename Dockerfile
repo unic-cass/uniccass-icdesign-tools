@@ -2,9 +2,9 @@
 
 ARG BASE_IMAGE=ubuntu:22.04
 
-# Jul 13, 2024 (ngspice-43)
+# Jan 11, 2025 (ngspice-44.2)
 ARG NGSPICE_REPO_URL="https://github.com/danchitnis/ngspice-sf-mirror"
-ARG NGSPICE_REPO_COMMIT="2af390f0b12ec460f29464d7325cf3ab5b02d98b"
+ARG NGSPICE_REPO_COMMIT="ngspice-44.2"
 ARG NGSPICE_NAME="ngspice"
 
 ARG XYCE_REPO_URL="https://github.com/Xyce/Xyce.git"
@@ -18,14 +18,14 @@ ARG OPEN_PDKS_REPO_URL="https://github.com/RTimothyEdwards/open_pdks"
 ARG OPEN_PDKS_REPO_COMMIT="0fe599b2afb6708d281543108caf8310912f54af"
 ARG OPEN_PDKS_NAME="open_pdks"
 
-# Aug 16, 2024 (master)
+# Feb 23, 2025 (8.3.522)
 ARG MAGIC_REPO_URL="https://github.com/RTimothyEdwards/magic.git"
-ARG MAGIC_REPO_COMMIT="0c36365db8921397a258abbea0369cee8d560c99"
+ARG MAGIC_REPO_COMMIT="8.3.522"
 ARG MAGIC_NAME="magic"
 
-# Sep 13, 2024 (dev)
+# Apr 15, 2025 (dev)
 ARG IHP_PDK_REPO_URL="https://github.com/IHP-GmbH/IHP-Open-PDK.git"
-ARG IHP_PDK_REPO_COMMIT="4d6ba9b695afdf84d57e4b3bdd2234f96e8910bd"
+ARG IHP_PDK_REPO_COMMIT="e1ccb16b29c386dd2d7c41ac555c32f347b9364a"
 ARG IHP_PDK_NAME="ihp-sg13g2"
 
 # Oct 30, 2023 (master)
@@ -34,15 +34,15 @@ ARG OPENVAF_REPO_COMMIT="a9697ae7780518f021f9f64e819b3a57033bd39f"
 ARG OPENVAF_DOWNLOAD="https://openva.fra1.cdn.digitaloceanspaces.com/openvaf_23_5_0_linux_amd64.tar.gz"
 ARG OPENVAF_NAME="openvaf"
 
-# 2024-09-22 (v0.29.7)
+# Mar 05, 2025 (v0.29.12)
 ARG KLAYOUT_REPO_URL="https://github.com/KLayout/klayout"
-ARG KLAYOUT_REPO_COMMIT="v0.29.7"
-ARG KLAYOUT_DOWNLOAD="https://www.klayout.org/downloads/Ubuntu-22/klayout_0.29.7-1_amd64.deb"
+ARG KLAYOUT_REPO_COMMIT="v0.29.12"
+ARG KLAYOUT_DOWNLOAD="https://www.klayout.org/downloads/Ubuntu-22/klayout_0.30.1-1_amd64.deb"
 ARG KLAYOUT_NAME="klayout"
 
-# May 21, 2024 (master)
+# Mar 14, 2025 (master)
 ARG XSCHEM_REPO_URL="https://github.com/StefanSchippers/xschem.git"
-ARG XSCHEM_REPO_COMMIT="747652ffe184246edcacfc072834583efcbf84a8"
+ARG XSCHEM_REPO_COMMIT="313acc8e2974c38be80549203a555bed0fd4e30f"
 ARG XSCHEM_NAME="xschem"
 
 # Apr 21, 2024 ()
@@ -50,9 +50,9 @@ ARG OPENROAD_APP_REPO_URL="https://github.com/The-OpenROAD-Project/OpenROAD.git"
 ARG OPENROAD_APP_REPO_COMMIT="d423155d69de7f683a23f6916ead418a615ad4ad"
 ARG OPENROAD_APP_NAME="openroad"
 
-# May 17, 2024 (1.5.276)
+# Mar 10, 2025 (1.5.293)
 ARG NETGEN_REPO_URL="https://github.com/rtimothyedwards/netgen"
-ARG NETGEN_REPO_COMMIT="1.5.276"
+ARG NETGEN_REPO_COMMIT="1.5.293"
 ARG NETGEN_NAME="netgen"
 
 # Oct 25, 2023 (main)
@@ -100,7 +100,7 @@ ARG ORFS_NAME="OpenROAD-flow-scripts"
 # Basic configuration for base and builder
 #######################################################################
 
-FROM ${BASE_IMAGE} as common
+FROM ${BASE_IMAGE} AS common
 ARG CONTAINER_TAG=unknown
 ENV DEBIAN_FRONTEND=noninteractive \
     TZ=Europe/Vienna \
@@ -115,7 +115,7 @@ USER root
 #######################################################################
 # Setup base image
 #######################################################################
-FROM common as base
+FROM common AS base
 
 RUN --mount=type=bind,source=images/base,target=/images/base \
     bash /images/base/base_install.sh
@@ -126,7 +126,7 @@ RUN --mount=type=bind,source=images/base,target=/images/base \
 #######################################################################
 # Builder image (Has all iic dependencies)
 #######################################################################
-FROM common as builder
+FROM common AS builder
 
 RUN --mount=type=bind,source=images/builder,target=/images/builder \
     bash /images/builder/exhaustive-install.sh
@@ -159,7 +159,7 @@ ENV PATH="$TOOLS/common/bin:$PATH" \
 #######################################################################
 # Compile magic (Requirement for sky130 pdk)
 #######################################################################
-FROM builder as magic
+FROM builder AS magic
 
 ARG MAGIC_REPO_URL \
     MAGIC_REPO_COMMIT \
@@ -172,7 +172,7 @@ RUN --mount=type=bind,source=images/magic,target=/images/magic \
 #######################################################################
 # Build PDKs from open_pdks
 #######################################################################
-FROM magic as open_pdks
+FROM magic AS open_pdks
 
 ARG OPEN_PDKS_REPO_URL \
     OPEN_PDKS_REPO_COMMIT \
@@ -194,7 +194,7 @@ RUN --mount=type=bind,source=images/final_structure/configure,target=/images/fin
 #######################################################################
 # Compile openvaf (requirement for ihp pdk)
 #######################################################################
-FROM builder as openvaf
+FROM builder AS openvaf
 
 ARG OPENVAF_REPO_URL \
     OPENVAF_REPO_COMMIT \
@@ -209,7 +209,7 @@ RUN --mount=type=bind,source=images/openvaf,target=/images/openvaf \
 #######################################################################
 # Build ihp pdk open pdk
 #######################################################################
-FROM openvaf as ihp_pdk
+FROM openvaf AS ihp_pdk
 
 ARG IHP_PDK_REPO_URL \
     IHP_PDK_REPO_COMMIT \
@@ -222,7 +222,7 @@ RUN --mount=type=bind,source=images/ihp_pdk,target=/images/ihp_pdk \
 #######################################################################
 # Compile ngspice
 #######################################################################
-FROM builder as ngspice
+FROM builder AS ngspice
 
 ARG NGSPICE_REPO_URL \
     NGSPICE_REPO_COMMIT \
@@ -234,7 +234,7 @@ RUN --mount=type=bind,source=images/ngspice,target=/images/ngspice \
 #######################################################################
 # Compile xyce
 #######################################################################
-FROM builder as xyce
+FROM builder AS xyce
 
 ARG XYCE_REPO_URL \
     XYCE_REPO_COMMIT \
@@ -248,7 +248,7 @@ RUN --mount=type=bind,source=images/xyce,target=/images/xyce \
 #######################################################################
 # Compile klayout
 #######################################################################
-# FROM builder as klayout
+# FROM builder AS klayout
 
 # ARG KLAYOUT_REPO_URL \
 #     KLAYOUT_REPO_COMMIT \
@@ -262,7 +262,7 @@ RUN --mount=type=bind,source=images/xyce,target=/images/xyce \
 #######################################################################
 # Compile xschem
 #######################################################################
-FROM builder as xschem
+FROM builder AS xschem
 
 ARG XSCHEM_REPO_URL \
     XSCHEM_REPO_COMMIT \
@@ -275,7 +275,7 @@ RUN --mount=type=bind,source=images/xschem,target=/images/xschem \
 #######################################################################
 # Compile yosys
 #######################################################################
-FROM builder as yosys
+FROM builder AS yosys
 
 ARG YOSYS_REPO_URL \
     YOSYS_REPO_COMMIT \
@@ -293,7 +293,7 @@ RUN --mount=type=bind,source=images/yosys,target=/images/yosys \
 #######################################################################
 # Compile netgen
 #######################################################################
-FROM builder as netgen
+FROM builder AS netgen
 
 ARG NETGEN_REPO_URL \
     NETGEN_REPO_COMMIT \
@@ -306,7 +306,7 @@ RUN --mount=type=bind,source=images/netgen,target=/images/netgen \
 #######################################################################
 # Compile gaw
 #######################################################################
-FROM builder as gaw
+FROM builder AS gaw
 
 ARG GAW3_XSCHEM_REPO_URL \
     GAW3_XSCHEM_REPO_COMMIT \
@@ -319,7 +319,7 @@ RUN --mount=type=bind,source=images/gaw,target=/images/gaw \
 #######################################################################
 # Compile gtkwave
 #######################################################################
-# FROM builder as gtkwave
+# FROM builder AS gtkwave
 # ARG GTKWAVE_REPO_URL \
 #     GTKWAVE_REPO_COMMIT \
 #     GTKWAVE_NAME
@@ -331,7 +331,7 @@ RUN --mount=type=bind,source=images/gaw,target=/images/gaw \
 #######################################################################
 # Compile openroad
 #######################################################################
-FROM builder as openroad
+FROM builder AS openroad
 
 ARG OPENROAD_APP_REPO_URL \
     OPENROAD_APP_REPO_COMMIT \
@@ -344,7 +344,7 @@ RUN --mount=type=bind,source=images/openroad,target=/images/openroad \
 #######################################################################
 # Compile cvc_rv
 #######################################################################
-FROM builder as cvc_rv
+FROM builder AS cvc_rv
 
 ARG CVC_RV_REPO_URL \
     CVC_RV_REPO_COMMIT \
@@ -357,7 +357,7 @@ RUN --mount=type=bind,source=images/cvc_rv,target=/images/cvc_rv \
 #######################################################################
 # Compile verilator
 #######################################################################
-FROM builder as verilator
+FROM builder AS verilator
 
 ARG VERILATOR_REPO_URL \
     VERILATOR_REPO_COMMIT \
@@ -370,7 +370,7 @@ RUN --mount=type=bind,source=images/verilator,target=/images/verilator \
 #######################################################################
 # Compile iverilog
 #######################################################################
-FROM builder as iverilog
+FROM builder AS iverilog
 
 ARG IVERILOG_REPO_URL \
     IVERILOG_REPO_COMMIT \
@@ -383,7 +383,7 @@ RUN --mount=type=bind,source=images/iverilog,target=/images/iverilog \
 #######################################################################
 # Compile OpenROAD Flow Scripts
 #######################################################################
-FROM builder as orfs
+FROM builder AS orfs
 
 ARG ORFS_REPO_URL \
     ORFS_REPO_COMMIT \
@@ -396,7 +396,7 @@ RUN --mount=type=bind,source=images/orfs,target=/images/orfs \
 #######################################################################
 # Final output container
 #######################################################################
-FROM base as usm-vlsi-tools
+FROM base AS usm-vlsi-tools
 ARG NGSPICE_REPO_COMMIT \
     OPEN_PDKS_REPO_COMMIT \
     MAGIC_REPO_COMMIT \
