@@ -1,6 +1,6 @@
 {
 	"name": "usm-vlsi-tools for Windows",
-	"image": "akilesalreadytaken/usm-vlsi-tools:latest",
+	"image": "isaiassh/unic-cass-tools:latest",
 	"features": {},
 	"customizations": {
 		"vscode": {
