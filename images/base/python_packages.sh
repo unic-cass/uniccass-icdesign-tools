@@ -31,4 +31,5 @@ uv pip install --system --strict --compile-bytecode --no-cache \
     kfactory \
     ruff \
     click \
+    "pygobject<3.52.0" \
     xdot

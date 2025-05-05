@@ -16,7 +16,11 @@ MINIMUM_DEPS=(
 	patch
 	make
 	gawk
-
+	# Cairo / pygobject
+	pkg-config
+	libcairo2-dev
+	libgirepository1.0-dev
+	gir1.2-gtk-3.0
 	# Libraries
 	librsvg2-2
 	librsvg2-common
