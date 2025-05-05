@@ -47,11 +47,6 @@ We welcome contributions from the global IC design community!
    make start
    ```
 
-3. **Start working with the tools:**
-   - Use the provided scripts and documentation in each tool's directory.
-
----
-
 ### Windows (with WSL 2)
 
 1. **Install [WSL 2](https://docs.microsoft.com/en-us/windows/wsl/install) and Ubuntu from the Microsoft Store.**
@@ -74,8 +69,6 @@ We welcome contributions from the global IC design community!
 
 4. **For GUI tools, use [VcXsrv](https://sourceforge.net/projects/vcxsrv/) or similar X server.**
 
----
-
 ### macOS
 
 1. **Clone the repository:**
@@ -91,21 +84,6 @@ We welcome contributions from the global IC design community!
    ```
 
 4. **Note:** Some tools may require additional configuration or may not be fully supported.
-
----
-
-## Additional Details
-
-- **Tool List:**  
-  The repository includes open-source tools for schematic capture, simulation, layout, verification, and more (e.g., Magic, KLayout, Ngspice, Xschem, Yosys, Verilator, etc.).
-- **Documentation:**  
-  Each tool directory contains specific documentation and usage instructions.
-- **Community & Support:**  
-  Please use [GitHub Issues](https://github.com/unic-cass/uniccass-icdesign-tools/issues) for questions, bug reports, or feature requests.
-- **Contributing:**  
-  We welcome contributions! Please read our [CONTRIBUTING.md](CONTRIBUTING.md) (to be created) for guidelines.
-- **License:**  
-  This project is licensed under the [MIT License](LICENSE).
 
 ---
 
@@ -131,6 +109,14 @@ Versions and commit references for all tools and PDKs are specified in the `Dock
 
 ---
 
-**Empowering the next generation of IC designers, everywhere.**
+## Additional Details
 
----
+- **Documentation:**  
+  Each tool directory contains specific documentation and usage instructions.
+- **Community & Support:**  
+  Please use [GitHub Issues](https://github.com/unic-cass/uniccass-icdesign-tools/issues) for questions, bug reports, or feature requests.
+- **Contributing:**  
+  We welcome contributions! Please read our [CONTRIBUTING.md](CONTRIBUTING.md) (to be created) for guidelines.
+- **License:**  
+  This project is licensed under the [MIT License](LICENSE).
+
