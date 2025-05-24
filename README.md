@@ -1,11 +1,11 @@
 # UNIC-CASS IC Design Tools
 
-[![Latest Release](https://img.shields.io/github/v/release/unic-cass/uniccass-icdesign-tools?style=for-the-badge)](https://github.com/unic-cass/uniccass-icdesign-tools/releases)
+[![Latest Release](https://img.shields.io/docker/v/isaiassh/unic-cass-tools/0.1.2?style=for-the-badge)](https://hub.docker.com/r/isaiassh/unic-cass-tools/tags)
 [![License](https://img.shields.io/github/license/unic-cass/uniccass-icdesign-tools?style=for-the-badge)](LICENSE)
 [![Issues](https://img.shields.io/github/issues/unic-cass/uniccass-icdesign-tools?style=for-the-badge)](https://github.com/unic-cass/uniccass-icdesign-tools/issues)
 [![Pull Requests](https://img.shields.io/github/issues-pr/unic-cass/uniccass-icdesign-tools?style=for-the-badge)](https://github.com/unic-cass/uniccass-icdesign-tools/pulls)
 [![Contributors](https://img.shields.io/github/contributors/unic-cass/uniccass-icdesign-tools?style=for-the-badge)](https://github.com/unic-cass/uniccass-icdesign-tools/graphs/contributors)
-[![Docker Pulls](https://img.shields.io/docker/pulls/isaiassh/unic-cass-tools?style=for-the-badge)](https://hub.docker.com/repository/docker/isaiassh/unic-cass-tools/general)
+
 
 ---
 
