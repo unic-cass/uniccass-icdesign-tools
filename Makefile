@@ -2,15 +2,8 @@ all: print
 
 PDK=sky130A
 SHARED_DIR=$(abspath ./shared_xserver)
-
-ifeq (,$(DEV))
-DOCKER_IMAGE_TAG=isaiassh/unic-cass-tools:0.1.1
+DOCKER_IMAGE_TAG=isaiassh/unic-cass-tools:0.1.2
 STAGE=unic-cass-tools
-else
-DOCKER_IMAGE_TAG=isaiassh/unic-cass-tools:0.1.1
-STAGE=unic-cass-tools
-endif
-
 
 ifneq (,$(ROOT))
 _DOCKER_ROOT_USER=--user root
