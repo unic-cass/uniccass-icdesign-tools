@@ -2,7 +2,7 @@ all: print
 
 PDK=sky130A
 SHARED_DIR=$(abspath ./shared_xserver)
-DOCKER_IMAGE_TAG=isaiassh/unic-cass-tools:0.1.2
+DOCKER_IMAGE_TAG=isaiassh/unic-cass-tools:1.0.0
 STAGE=unic-cass-tools
 
 ifneq (,$(ROOT))

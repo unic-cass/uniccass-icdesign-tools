@@ -1,11 +1,11 @@
 # UNIC-CASS IC Design Tools
 
-[![Latest Release](https://img.shields.io/docker/v/isaiassh/unic-cass-tools/0.1.2?style=for-the-badge)](https://hub.docker.com/r/isaiassh/unic-cass-tools/tags)
-[![License](https://img.shields.io/github/license/unic-cass/uniccass-icdesign-tools?style=for-the-badge)](LICENSE)
-[![Issues](https://img.shields.io/github/issues/unic-cass/uniccass-icdesign-tools?style=for-the-badge)](https://github.com/unic-cass/uniccass-icdesign-tools/issues)
-[![Pull Requests](https://img.shields.io/github/issues-pr/unic-cass/uniccass-icdesign-tools?style=for-the-badge)](https://github.com/unic-cass/uniccass-icdesign-tools/pulls)
-[![Contributors](https://img.shields.io/github/contributors/unic-cass/uniccass-icdesign-tools?style=for-the-badge)](https://github.com/unic-cass/uniccass-icdesign-tools/graphs/contributors)
-
+[![Release](https://img.shields.io/badge/Release-isaiassh%2Funic--cass--tools--1.0.0-blue?style=flat-square&logo=docker)](https://hub.docker.com/r/isaiassh/unic-cass-tools/tags)
+[![License: MIT](https://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat-square)](LICENSE)
+[![Issues](https://img.shields.io/github/issues/unic-cass/uniccass-icdesign-tools?style=flat-square&label=Issues&logo=github)](https://github.com/unic-cass/uniccass-icdesign-tools/issues)
+[![Pull Requests](https://img.shields.io/github/issues-pr/unic-cass/uniccass-icdesign-tools?style=flat-square&label=PRs&logo=github)](https://github.com/unic-cass/uniccass-icdesign-tools/pulls)
+[![Contributors](https://img.shields.io/github/contributors/unic-cass/uniccass-icdesign-tools?style=flat-square&label=Contributors&logo=github)](https://github.com/unic-cass/uniccass-icdesign-tools/graphs/contributors)
+[![Docker Pulls](https://img.shields.io/docker/pulls/isaiassh/unic-cass-tools?style=flat-square&label=Pulls&logo=docker)](https://hub.docker.com/r/isaiassh/unic-cass-tools)
 
 ---
 
