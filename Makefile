@@ -43,7 +43,7 @@ DOCKER_RUN=docker run -it $(_DOCKER_ROOT_USER) \
 	--name $(CONTAINER_NAME)
 
 _XSERVER_EXISTS := $(shell powershell -noprofile Get-Process vcxsrv -ErrorAction SilentlyContinue)
-START_XSERVER   := powershell -noprofile vcxsrv.exe :0 -multiwindow -clipboard -primary -wgl
+START_XSERVER   := powershell -ExecutionPolicy Bypass -File "$(CURDIR)/start_vcxsrv.ps1"
 
 else
 
@@ -134,8 +134,12 @@ endif
 
 
 xserver:
+ifeq (Windows_NT,$(OS))
+	@powershell -NoProfile -Command "if (-not (Get-Process vcxsrv -ErrorAction SilentlyContinue)) { Start-Process -FilePath 'C:\Program Files\VcXsrv\vcxsrv.exe' -ArgumentList ':0 -multiwindow -clipboard -primary -wgl' } else { Write-Host 'VcXsrv is already running.' }"
+else
 ifeq (,$(_XSERVER_EXISTS))
 	$(START_XSERVER)
+endif
 endif
 
 
