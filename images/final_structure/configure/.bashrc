@@ -146,6 +146,7 @@ PS1="${c_cya}\u ${c_pur}\w \n${c_res}\$ " ## This dont work :(
 alias ls="ls --color=auto -XF"
 alias grep="grep --color=auto"
 
+export USER=designer
 
 export CMAKE_PACKAGE_ROOT_ARGS="$CMAKE_PACKAGE_ROOT_ARGS -D SWIG_ROOT=$TOOLS/common -D Eigen3_ROOT=$TOOLS/common -D GTest_ROOT=$TOOLS/common -D LEMON_ROOT=$TOOLS/common -D spdlog_ROOT=$TOOLS/common -D ortools_ROOT=$TOOLS/common"
 export PATH="$TOOLS/common/bin:$PATH"
