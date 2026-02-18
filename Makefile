@@ -143,7 +143,7 @@ endif
 
 
 start: xserver pull
-	$(DOCKER_RUN) --rm $(DOCKER_IMAGE_TAG)
+	$(DOCKER_RUN) --rm $(DOCKER_IMAGE_TAG) /home/designer/shared/config/myconfig.sh
 
 attach: xserver pull
 ifeq (,$(CONTAINER_ID))
