@@ -12,6 +12,7 @@ if [ -f "$FILE" ]; then
 fi
 
 # Create a new xschemrc file with personal configuration
+mkdir /home/designer/.xschem
 cp /home/designer/shared/config/xschemrc /home/designer/.xschem/xschemrc
 
 # Modifying .bashrc to add alias for xschem
