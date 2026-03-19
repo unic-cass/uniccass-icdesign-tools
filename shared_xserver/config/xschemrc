@@ -16,12 +16,12 @@ append XSCHEM_LIBRARY_PATH :$env(HOME)/shared/ihp2603/analog/top
 append XSCHEM_LIBRARY_PATH :$env(HOME)/shared/ihp2603/analog/tb
 append XSCHEM_LIBRARY_PATH :$env(HOME)/shared/ihp2603/digital/core
 append XSCHEM_LIBRARY_PATH :$env(HOME)/shared/ihp2603/digital/tb
-append XSCHEM_LIBRARY_PATH :$env(HOME)/shared/openic/pads/sg13g2_io
+append XSCHEM_LIBRARY_PATH :$env(HOME)/shared/ihp2603/openpdk-libraries/ihp-sg13g2/sg13g2_io/xschem
 
 puts stderr "XSCHEM_LIBRARY_PATH: $XSCHEM_LIBRARY_PATH"
 
 ## Directory where simulations, netlist, and simulator outputs are placed
-set netlist_dir $env(HOME)/shared/amaru/simulations/ngspice
+set netlist_dir $env(HOME)/shared/ihp2603/simulations/ngspice
 
 #### if set to 1 full zoom will center the drawing instead of anhoring to lower
 #### left corner. Default: 0
