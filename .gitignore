@@ -1,3 +1,6 @@
+# Personal Config
+shared_xserver/designs/*
+
 # Prerequisites
 *.d
 
@@ -57,3 +60,6 @@ dkms.conf
 **/_build_logs
 *.raw
 **/run
+
+# VS Code
+.vscode/
