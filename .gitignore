@@ -1,3 +1,7 @@
+# Personal Config
+shared_xserver/designs/*
+.vscode/
+
 # Prerequisites
 *.d
 
