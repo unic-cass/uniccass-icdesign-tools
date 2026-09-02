@@ -2,9 +2,9 @@
 
 ARG BASE_IMAGE=ubuntu:22.04
 
-# Jan 11, 2025 (ngspice-44.2)
+# Mar 29, 2026 (ngspice-46)
 ARG NGSPICE_REPO_URL="https://github.com/danchitnis/ngspice-sf-mirror"
-ARG NGSPICE_REPO_COMMIT="ngspice-44.2"
+ARG NGSPICE_REPO_COMMIT="ngspice-46"
 ARG NGSPICE_NAME="ngspice"
 
 ARG XYCE_REPO_URL="https://github.com/Xyce/Xyce.git"
@@ -18,15 +18,15 @@ ARG OPEN_PDKS_REPO_URL="https://github.com/RTimothyEdwards/open_pdks"
 ARG OPEN_PDKS_REPO_COMMIT="0fe599b2afb6708d281543108caf8310912f54af"
 ARG OPEN_PDKS_NAME="open_pdks"
 
-# Mar 2, 2026 (8.3.613)
+# Aug 26, 2026 (master)
 ARG MAGIC_REPO_URL="https://github.com/RTimothyEdwards/magic.git"
-ARG MAGIC_REPO_COMMIT="8.3.613"
+ARG MAGIC_REPO_COMMIT="307e22af30f483bb52ec68118454002fb5864fe5"
 ARG MAGIC_NAME="magic"
 
-# Mar 11, 2026 (v0.3.0)
+# Sep 1, 2026 (main)
 ARG IHP_PDK_REPO_URL="https://github.com/IHP-GmbH/IHP-Open-PDK.git"
-ARG IHP_PDK_REPO_COMMIT="5cccb161f7492697cfa52eb14dc03beb00bdca9e"
-ARG IHP_PDK_REPO_BRANCH="v0.3.0"
+ARG IHP_PDK_REPO_COMMIT="5e6d592e4002946a4616f798c357f0f3c06cf3b6"
+ARG IHP_PDK_REPO_BRANCH="main"
 ARG IHP_PDK_NAME="ihp-sg13g2"
 
 # Oct 30, 2023 (master)
@@ -35,20 +35,20 @@ ARG OPENVAF_REPO_COMMIT="a9697ae7780518f021f9f64e819b3a57033bd39f"
 ARG OPENVAF_DOWNLOAD="https://openva.fra1.cdn.digitaloceanspaces.com/openvaf_23_5_0_linux_amd64.tar.gz"
 ARG OPENVAF_NAME="openvaf"
 
-# Nov 12, 2025 (v0.30.5)
+# Aug 23, 2026 (v0.30.11)
 ARG KLAYOUT_REPO_URL="https://github.com/KLayout/klayout"
-ARG KLAYOUT_REPO_COMMIT="v0.30.5"
-ARG KLAYOUT_DOWNLOAD="https://www.klayout.org/downloads/Ubuntu-22/klayout_0.30.5-1_amd64.deb"
+ARG KLAYOUT_REPO_COMMIT="v0.30.11"
+ARG KLAYOUT_DOWNLOAD="https://www.klayout.org/downloads/Ubuntu-22/klayout_0.30.11-1_amd64.deb"
 ARG KLAYOUT_NAME="klayout"
 
-# Mar 14, 2025 (master)
+# Aug 31, 2026 (master)
 ARG XSCHEM_REPO_URL="https://github.com/StefanSchippers/xschem.git"
-ARG XSCHEM_REPO_COMMIT="313acc8e2974c38be80549203a555bed0fd4e30f"
+ARG XSCHEM_REPO_COMMIT="cfbeaf069db7c8872e501ad7963fcc291d83d944"
 ARG XSCHEM_NAME="xschem"
 
-# Mar 10, 2025 (1.5.293)
-ARG NETGEN_REPO_URL="https://github.com/rtimothyedwards/netgen"
-ARG NETGEN_REPO_COMMIT="1.5.293"
+# Jul 6, 2026 (master)
+ARG NETGEN_REPO_URL="https://github.com/RTimothyEdwards/netgen.git"
+ARG NETGEN_REPO_COMMIT="e1528a797cdb155d6ebf8d91c5a55ed7d1713156"
 ARG NETGEN_NAME="netgen"
 
 # Oct 25, 2023 (main)

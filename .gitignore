@@ -57,6 +57,10 @@ dkms.conf
 **/_build_logs
 *.raw
 **/run
+shared_xserver/tests/run/
 
 # env file
 .env
+
+# Local drafts for tracked repository improvement plans
+.issues/drafts/

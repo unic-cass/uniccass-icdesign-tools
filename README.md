@@ -34,6 +34,14 @@ We welcome contributions from the global IC design community!
 
 ## How to Use
 
+Create your local environment configuration from the committed example before building or running the image:
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` to change the Docker image name and tag, PDK, shared directory, ports, or build behavior. Make targets load it automatically. When invoking a script in `build/` directly, first run `set -a; source .env; set +a`. Upstream tool versions remain pinned in the `Dockerfile`.
+
 ### Linux
 
 1. **Clone the repository:**
@@ -163,9 +171,24 @@ set_pdk sky130A
 set_pdk gf180mcuD
 ```
 
-The IHP PDK requires the compilation of OSDI files, which is performed automatically when starting a bash terminal. If the compilation fails, simply open another bash terminal.
+The IHP PDK Verilog-A models are compiled into OSDI binaries during the image build (`ihp_pdk` stage). The canonical location is `libs.tech/ngspice/osdi/`; a compatibility symlink at `libs.tech/ngspice/openvaf/` points to the same files for older schematics that reference the legacy path.
 
 Versions and commit references for all tools and PDKs are specified in the `Dockerfile`.
+
+---
+
+## Testing
+
+The scripts in `shared_xserver/tests/` run inside a container that mounts this directory at `/home/designer/shared`. Start the image first (`make start` or `make attach`), then:
+
+```bash
+/home/designer/shared/tests/layout-extraction.sh     # Magic parasitic extraction of the IHP inverter GDS
+/home/designer/shared/tests/ngspice-ihp-mosfet.sh    # ngspice operating-point smoke test of an IHP MOSFET
+/home/designer/shared/tests/librelane-smoke.sh       # librelane --manual-pdk --smoke-test
+/home/designer/shared/tests/run-all.sh               # run every test; exit 0 on success, 1 on failure
+```
+
+Generated files are written to `shared_xserver/tests/run/` and are gitignored. `run-all.sh` is the entry point for pipelines.
 
 ---
 
@@ -186,4 +209,3 @@ Versions and commit references for all tools and PDKs are specified in the `Dock
 
 - **License:**  
   This project is licensed under the [MIT License](LICENSE). LibreLane is licensed under [Apache License 2.0](https://github.com/librelane/librelane/blob/main/License).
-
