@@ -1,0 +1,17 @@
+* IHP SG13G2 LV NMOS operating-point smoke test
+.lib /opt/pdks/ihp-sg13g2/libs.tech/ngspice/models/cornerMOSlv.lib mos_tt
+Vgs net1 GND 0.4
+Vds net3 GND 1.0
+Vd net3 net2 0
+.param temp=27
+XM1 net2 net1 GND GND sg13_lv_nmos w=1.0u l=0.13u ng=1 m=1
+.control
+save all
+op
+let Id = @n.xm1.nsg13_lv_nmos[ids]
+print Id
+echo SMOKE_ID=$&Id
+quit
+.endc
+.GLOBAL GND
+.end

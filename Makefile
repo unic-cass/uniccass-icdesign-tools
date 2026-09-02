@@ -1,3 +1,6 @@
+.PHONY: all print build xserver start start-vnc attach start-raw start-notebook \
+	start-devcontainer push pull rm
+
 all: print
 
 PDK=ihp-sg13g2
@@ -31,9 +34,9 @@ endif
 
 ifeq (,$(DOCKER_TAG))
 ifneq (,$(ENABLE_GUI))
-DOCKER_TAG=1.1.0_vnc
+DOCKER_TAG=1.2.0_vnc
 else
-DOCKER_TAG=1.1.0
+DOCKER_TAG=1.2.0
 endif
 endif
 
@@ -178,8 +181,11 @@ print:
 
 
 build:
-	BUILDKIT_PROGRESS=plain docker build $(_DOCKER_NO_CACHE) -t $(DOCKER_IMAGE_TAG) --build-arg ENABLE_GUI=$(ENABLE_GUI) --target unic-cass-tools-nix .
-	docker image ls $(DOCKER_IMAGE_TAG)
+ifeq (,$(STAGE))
+	DOCKER_USER="$(DOCKER_USER)" DOCKER_IMAGE="$(DOCKER_IMAGE)" DOCKER_TAG="$(DOCKER_TAG)" ENABLE_GUI="$(ENABLE_GUI)" MAX_BUILD_JOBS="$(MAX_BUILD_JOBS)" NO_CACHE="$(NO_CACHE)" ./build/build-image.sh
+else
+	DOCKER_USER="$(DOCKER_USER)" DOCKER_IMAGE="$(DOCKER_IMAGE)" DOCKER_TAG="$(DOCKER_TAG)" ENABLE_GUI="$(ENABLE_GUI)" MAX_BUILD_JOBS="$(MAX_BUILD_JOBS)" NO_CACHE="$(NO_CACHE)" ./build/build-stage.sh "$(STAGE)"
+endif
 
 
 xserver:
