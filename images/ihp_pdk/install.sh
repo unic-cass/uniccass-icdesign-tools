@@ -11,7 +11,7 @@ git config --global http.lowSpeedTime 999999
 
 set +e
 for i in {1..5}; do
-    if git clone --branch "$IHP_PDK_REPO_BRANCH" --depth 1 "$IHP_PDK_REPO_URL" ihp; then
+    if git clone --branch "$IHP_PDK_REPO_BRANCH" --depth 1 --recurse-submodules "$IHP_PDK_REPO_URL" ihp; then
         break
     else
         if [ $i -lt 5 ]; then
