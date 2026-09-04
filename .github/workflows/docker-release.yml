@@ -1,0 +1,128 @@
+name: Build, test, and publish release image
+
+on:
+  push:
+    branches:
+      - "release/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docker-release-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    name: Release image
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Validate release metadata
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          set -Eeuo pipefail
+
+          if [[ "${GITHUB_REF_TYPE}" != "branch" || ! "${GITHUB_REF_NAME}" =~ ^release/([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+            echo "This workflow must run from a branch named release/x.y.z." >&2
+            exit 1
+          fi
+
+          release_version="${BASH_REMATCH[1]}"
+          manifest_version="$(jq -er '.release.version' manifest.json)"
+          if [[ "${release_version}" != "${manifest_version}" ]]; then
+            echo "Branch version ${release_version} does not match manifest version ${manifest_version}." >&2
+            exit 1
+          fi
+
+          if [[ "$(jq -er '.image.registry' manifest.json)" != "docker.io" ]]; then
+            echo "The release workflow only publishes to docker.io." >&2
+            exit 1
+          fi
+
+          if [[ -z "${DOCKERHUB_USERNAME}" || -z "${DOCKERHUB_TOKEN}" ]]; then
+            echo "DOCKERHUB_USERNAME and DOCKERHUB_TOKEN repository secrets are required." >&2
+            exit 1
+          fi
+
+          image_namespace="$(jq -er '.image.namespace' manifest.json)"
+          image_name="$(jq -er '.image.name' manifest.json)"
+          image_reference="${image_namespace}/${image_name}:${release_version}"
+
+          printf 'RELEASE_VERSION=%s\n' "${release_version}" >> "${GITHUB_ENV}"
+          printf 'RELEASE_IMAGE=%s\n' "${image_reference}" >> "${GITHUB_ENV}"
+
+      - name: Reclaim runner disk space
+        run: |
+          set -Eeuo pipefail
+          df -h /
+          sudo rm -rf \
+            /opt/ghc \
+            /opt/hostedtoolcache/CodeQL \
+            /usr/local/.ghcup \
+            /usr/local/lib/android \
+            /usr/local/share/boost \
+            /usr/share/dotnet
+          docker system prune --all --force --volumes
+          df -h /
+
+      - name: Run static checks
+        run: |
+          set -Eeuo pipefail
+          jq -e . manifest.json >/dev/null
+          bash -n \
+            build/*.sh \
+            images/*/install.sh \
+            images/final_structure/configure/*.sh \
+            images/final_structure/install/*.sh \
+            shared_xserver/tests/*.sh
+          CHECK_ONLY=1 ./build/build-image.sh
+
+      - name: Build release image
+        env:
+          BUILD_IMAGE_TAG: ${{ env.RELEASE_IMAGE }}
+          DOCKER_TAG: ${{ env.RELEASE_VERSION }}
+          BUILDKIT_PROGRESS: plain
+        run: ./build/build-image.sh
+
+      - name: Run integration tests
+        env:
+          IMAGE: ${{ env.RELEASE_IMAGE }}
+        run: |
+          set -Eeuo pipefail
+          test_output="${GITHUB_WORKSPACE}/shared_xserver/tests/run"
+          cleanup() {
+            sudo rm -rf "${test_output}"
+          }
+          trap cleanup EXIT
+
+          mkdir -p "${test_output}"
+          chmod 0777 "${test_output}"
+          docker run --rm \
+            --mount "type=bind,source=${GITHUB_WORKSPACE}/shared_xserver,target=/home/designer/shared" \
+            --env PDK=ihp-sg13g2 \
+            --entrypoint /bin/bash \
+            "${IMAGE}" \
+            -lc '/home/designer/shared/tests/run-all.sh'
+
+      - name: Log in to Docker Hub
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          printf '%s' "${DOCKERHUB_TOKEN}" |
+            docker login --username "${DOCKERHUB_USERNAME}" --password-stdin
+
+      - name: Push release image
+        run: docker push "${RELEASE_IMAGE}"
+
+      - name: Log out from Docker Hub
+        if: ${{ always() }}
+        run: docker logout

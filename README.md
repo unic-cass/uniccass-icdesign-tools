@@ -1,6 +1,6 @@
 # UNIC-CASS IC Design Tools
 
-[![Release](https://img.shields.io/badge/Release-isaiassh%2Funic--cass--tools--1.0.3--nix-blue?style=flat-square&logo=docker)](https://hub.docker.com/r/isaiassh/unic-cass-tools/tags)
+[![Docker Image Version](https://img.shields.io/docker/v/isaiassh/unic-cass-tools?sort=semver&style=flat-square&logo=docker&label=Release)](https://hub.docker.com/r/isaiassh/unic-cass-tools/tags)
 [![License: MIT](https://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat-square)](LICENSE)
 [![Issues](https://img.shields.io/github/issues/unic-cass/uniccass-icdesign-tools?style=flat-square&label=Issues&logo=github)](https://github.com/unic-cass/uniccass-icdesign-tools/issues)
 [![Pull Requests](https://img.shields.io/github/issues-pr/unic-cass/uniccass-icdesign-tools?style=flat-square&label=PRs&logo=github)](https://github.com/unic-cass/uniccass-icdesign-tools/pulls)
@@ -40,7 +40,15 @@ Create your local environment configuration from the committed example before bu
 cp .env.example .env
 ```
 
-Edit `.env` to change the Docker image name and tag, PDK, shared directory, ports, or build behavior. Make targets load it automatically. When invoking a script in `build/` directly, first run `set -a; source .env; set +a`. Upstream tool versions remain pinned in the `Dockerfile`.
+Edit `.env` to override the Docker image name or tag, PDK, shared directory,
+ports, or build behavior. Make targets load it automatically. When invoking a
+script in `build/` directly, first run
+`set -a; source .env; set +a`.
+
+Docker, GNU Make, Bash, and `jq` are required for local builds. The committed
+[`manifest.json`](manifest.json) is the source of truth for the release version,
+image coordinates, final Docker target, and all source URLs and revisions passed
+to the Dockerfile. Values in `.env` are optional workstation overrides.
 
 ### Linux
 
@@ -173,7 +181,10 @@ set_pdk gf180mcuD
 
 The IHP PDK Verilog-A models are compiled into OSDI binaries during the image build (`ihp_pdk` stage). The canonical location is `libs.tech/ngspice/osdi/`; a compatibility symlink at `libs.tech/ngspice/openvaf/` points to the same files for older schematics that reference the legacy path.
 
-Versions and commit references for all tools and PDKs are specified in the `Dockerfile`.
+Versions, commit references, and source URLs for all tools and PDKs are specified
+in [`manifest.json`](manifest.json). Build through `make build`,
+`build/build-image.sh`, or `build/build-stage.sh`; these wrappers validate the
+manifest and pass its values to the otherwise static Dockerfile.
 
 ---
 
@@ -189,6 +200,48 @@ The scripts in `shared_xserver/tests/` run inside a container that mounts this d
 ```
 
 Generated files are written to `shared_xserver/tests/run/` and are gitignored. `run-all.sh` is the entry point for pipelines.
+
+---
+
+## Publishing a Release
+
+The release workflow builds and publishes an image whenever a branch named
+`release/x.y.z` is pushed. The branch version must exactly match
+`release.version` in `manifest.json`.
+
+Before using the workflow, configure these repository Actions secrets:
+
+- `DOCKERHUB_USERNAME`: the Docker Hub account used to publish the image.
+- `DOCKERHUB_TOKEN`: a least-privilege Docker Hub access token with push access
+  to the repository declared under `image` in `manifest.json`.
+
+No GitHub Actions repository variables are required. In Docker Hub, set the
+repository tag mutability policy to **All tags are mutable**. A repeated
+successful build of the same `release/x.y.z` branch then updates the existing
+`x.y.z` tag when `docker push` runs.
+
+To publish a release:
+
+1. Update `release.version` and any tool or PDK revisions in `manifest.json`.
+2. Commit the release configuration.
+3. Create and push the matching branch, for example:
+
+   ```bash
+   git switch -c release/1.3.0
+   git push origin release/1.3.0
+   ```
+
+The workflow validates the manifest and Dockerfile, builds the image through
+`build/build-image.sh`, runs `shared_xserver/tests/run-all.sh` inside that exact
+image, and logs in and pushes to Docker Hub only after every test passes. It can
+also be rerun manually from the matching release branch.
+
+The job timeout is six hours. It currently uses the standard `ubuntu-latest`
+runner and reclaims preinstalled software before building. This runner only
+guarantees 14 GB of SSD space, while the current published image is about
+5.55 GB compressed, so disk exhaustion remains a significant risk. If that
+occurs, move the job to a GitHub larger runner or a self-hosted Linux x64 runner
+with at least 150 GB of free disk.
 
 ---
 

@@ -12,6 +12,12 @@ ifneq (,$(wildcard ./.env))
     export
 endif
 
+MANIFEST_REGISTRY := $(shell jq -r '.image.registry' manifest.json)
+MANIFEST_DOCKER_USER := $(shell jq -r '.image.namespace' manifest.json)
+MANIFEST_DOCKER_IMAGE := $(shell jq -r '.image.name' manifest.json)
+MANIFEST_DOCKER_TAG := $(shell jq -r '.release.version' manifest.json)
+MANIFEST_MAX_BUILD_JOBS := $(shell jq -r '.build.arguments.MAX_BUILD_JOBS' manifest.json)
+
 ifeq (,$(WEBSERVER_PORT))
 WEBSERVER_PORT=80
 endif
@@ -25,22 +31,32 @@ JUPYTER_PORT=8888
 endif
 
 ifeq (,$(DOCKER_USER))
-DOCKER_USER=isaiassh
+DOCKER_USER=$(MANIFEST_DOCKER_USER)
 endif
 
 ifeq (,$(DOCKER_IMAGE))
-DOCKER_IMAGE=unic-cass-tools
+DOCKER_IMAGE=$(MANIFEST_DOCKER_IMAGE)
 endif
 
 ifeq (,$(DOCKER_TAG))
 ifneq (,$(ENABLE_GUI))
-DOCKER_TAG=1.2.2_vnc
+DOCKER_TAG=$(MANIFEST_DOCKER_TAG)_vnc
 else
-DOCKER_TAG=1.2.2
+DOCKER_TAG=$(MANIFEST_DOCKER_TAG)
 endif
 endif
 
-DOCKER_IMAGE_TAG=$(DOCKER_USER)/$(DOCKER_IMAGE):$(DOCKER_TAG)
+ifeq ($(MANIFEST_REGISTRY),docker.io)
+DOCKER_REGISTRY_PREFIX=
+else
+DOCKER_REGISTRY_PREFIX=$(MANIFEST_REGISTRY)/
+endif
+
+ifeq (,$(MAX_BUILD_JOBS))
+MAX_BUILD_JOBS=$(MANIFEST_MAX_BUILD_JOBS)
+endif
+
+DOCKER_IMAGE_TAG=$(DOCKER_REGISTRY_PREFIX)$(DOCKER_USER)/$(DOCKER_IMAGE):$(DOCKER_TAG)
 
 ifneq (,$(ROOT))
 _DOCKER_ROOT_USER=--user root
