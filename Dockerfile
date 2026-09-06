@@ -448,6 +448,7 @@ RUN --mount=type=bind,source=images/final_structure/configure,target=/images/fin
 
 COPY --from=open_pdks  ${PDK_ROOT}                  ${PDK_ROOT}
 COPY --from=ihp_pdk    ${PDK_ROOT}/${IHP_PDK_NAME}  ${PDK_ROOT}/${IHP_PDK_NAME}
+COPY --from=ihp_pdk    ${PDK_ROOT}/versions.txt     ${PDK_ROOT}/versions.txt
 
 # Copy common libraries from builder, excluding compile-time only tools
 COPY --from=builder    ${TOOLS}/common              ${TOOLS}/common
