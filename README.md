@@ -183,6 +183,7 @@ The scripts in `shared_xserver/tests/` run inside a container that mounts this d
 
 ```bash
 /home/designer/shared/tests/layout-extraction.sh     # Magic parasitic extraction of the IHP inverter GDS
+/home/designer/shared/tests/klayout-ihp-drc.sh       # KLayout DRC smoke test of the IHP inverter GDS
 /home/designer/shared/tests/ngspice-ihp-mosfet.sh    # ngspice operating-point smoke test of an IHP MOSFET
 /home/designer/shared/tests/librelane-smoke.sh       # librelane --manual-pdk --smoke-test
 /home/designer/shared/tests/run-all.sh               # run every test; exit 0 on success, 1 on failure

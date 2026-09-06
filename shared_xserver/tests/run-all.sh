@@ -8,6 +8,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 tests=(
 	layout-extraction.sh
+	klayout-ihp-drc.sh
 	ngspice-ihp-mosfet.sh
 	librelane-smoke.sh
 )
