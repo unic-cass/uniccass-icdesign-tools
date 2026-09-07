@@ -9,7 +9,7 @@
     "name": "unic-cass-tools"
   },
   "build": {
-    "target": "unic-cass-tools",
+    "target": "unic-cass-tools-nix",
     "arguments": {
       "BASE_IMAGE": "ubuntu:22.04",
       "ENABLE_GUI": "",
