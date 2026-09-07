@@ -51,6 +51,7 @@ rm -rf \
 find . -name "*.sch" -exec sed -i '/pre_osdi/d' {} \;
 
 mkdir -p "$PDK_ROOT"
+cp versions.txt "$PDK_ROOT/versions.txt"
 mv ihp-sg13g2 "$PDK_ROOT/$IHP_PDK_NAME"
 
 # Compile Verilog-A models using openvaf (v0.3.0+ structure)
