@@ -1,6 +1,7 @@
 # Based on https://github.com/iic-jku/IIC-OSIC-TOOLS/blob/main/_build/Dockerfile
 
-ARG BASE_IMAGE
+# Default required for `docker build --check`; manifest.json overrides at build time.
+ARG BASE_IMAGE=ubuntu:22.04
 
 # ngspice
 ARG NGSPICE_REPO_URL
