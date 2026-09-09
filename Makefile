@@ -215,7 +215,7 @@ endif
 
 
 start: xserver pull
-	$(DOCKER_RUN) --rm $(DOCKER_IMAGE_TAG)
+	$(DOCKER_RUN) --rm $(DOCKER_IMAGE_TAG) /home/designer/shared/config/myconfig.sh
 
 start-vnc:
 	$(DOCKER_RUN_VNC) $(DOCKER_IMAGE_TAG) --vnc --wait

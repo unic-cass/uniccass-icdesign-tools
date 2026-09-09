@@ -1,0 +1,28 @@
+#### xschemrc system configuration file
+## by Manuel Monge
+
+source $env(PDK_ROOT)/$env(PDK)/libs.tech/xschem/xschemrc
+
+## Libraries
+set IHP_SG13G2 $env(PDK_ROOT)/$env(PDK)/libs.tech
+set XSCHEM_LIBRARY_PATH {}
+append XSCHEM_LIBRARY_PATH :${XSCHEM_SHAREDIR}/xschem_library/devices
+append XSCHEM_LIBRARY_PATH :${XSCHEM_SHAREDIR}/xschem_library
+append XSCHEM_LIBRARY_PATH :${IHP_SG13G2}/xschem
+append XSCHEM_LIBRARY_PATH :${IHP_SG13G2}/xschem/sg13g2_pr
+append XSCHEM_LIBRARY_PATH :${IHP_SG13G2}/xschem/sg13g2_stdcells
+append XSCHEM_LIBRARY_PATH :$env(HOME)/shared/ihp2603/analog/core
+append XSCHEM_LIBRARY_PATH :$env(HOME)/shared/ihp2603/analog/top
+append XSCHEM_LIBRARY_PATH :$env(HOME)/shared/ihp2603/analog/tb
+append XSCHEM_LIBRARY_PATH :$env(HOME)/shared/ihp2603/digital/core
+append XSCHEM_LIBRARY_PATH :$env(HOME)/shared/ihp2603/digital/tb
+append XSCHEM_LIBRARY_PATH :$env(HOME)/shared/ihp2603/openpdk-libraries/ihp-sg13g2/sg13g2_io/xschem
+
+puts stderr "XSCHEM_LIBRARY_PATH: $XSCHEM_LIBRARY_PATH"
+
+## Directory where simulations, netlist, and simulator outputs are placed
+set netlist_dir $env(HOME)/shared/ihp2603/simulations/ngspice
+
+#### if set to 1 full zoom will center the drawing instead of anhoring to lower
+#### left corner. Default: 0
+set zoom_full_center 1
